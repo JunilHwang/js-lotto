@@ -1,4 +1,4 @@
-import { observable, observe } from "./observer";
+import { observable, observe } from "./observer.js";
 
 export class Component {
 
@@ -6,15 +6,24 @@ export class Component {
   #props;
   state;
 
-  constructor($el, props) {
+  constructor($el, props = {}) {
     this.$el = $el;
-    this.#props = props;
+    this.#props = Component.#useReadonly(props);
     this.state = observable(this.initState());
     observe(() => this.#render());
   }
 
   initState() {
     return {};
+  }
+
+  static #useReadonly (obj) {
+    Object.entries(obj)
+      .filter(([, value]) => value instanceof Object)
+      .forEach(([key, value]) => {
+        obj[key] = Object.freeze(value);
+      })
+    return Object.freeze(obj);
   }
 
   #render() {
