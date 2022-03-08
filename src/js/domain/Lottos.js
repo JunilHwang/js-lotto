@@ -10,6 +10,8 @@ export class Lottos {
     return [ ...this.#lottos ];
   }
 
-
+  getRewordsBy(winningLotto) {
+    return this.#lottos.map(winningLotto.getReward);
+  }
 
 }

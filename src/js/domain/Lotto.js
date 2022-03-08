@@ -18,9 +18,7 @@ export class Lotto {
     return new Set([ ...this.#lotto ]);
   }
 
-  contains(value) {
-    return this.value.has(value);
-  }
+  contains = value => this.value.has(value);
 
   static #validate (lotto) {
     if (
