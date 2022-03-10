@@ -1,16 +1,9 @@
 let currentObserver = null;
 
-function debounce (fn) {
-  let currentFrameNumber = 0;
-  return () => {
-    cancelAnimationFrame(currentFrameNumber)
-    currentFrameNumber = requestAnimationFrame(fn);
-  }
-}
 
 export function observe (fn) {
-  currentObserver = debounce(fn);
-  currentObserver();
+  currentObserver = fn;
+  fn();
   currentObserver = null;
 }
 
