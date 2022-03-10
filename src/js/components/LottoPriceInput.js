@@ -1,6 +1,11 @@
 import { Component } from "../core";
 
 export class LottoPriceInput extends Component {
+
+  get $input () {
+    return this.$refs("input-price");
+  }
+
   render() {
     return `
       <form class="mt-5" data-component="LottoPriceInput">
@@ -9,6 +14,7 @@ export class LottoPriceInput extends Component {
         </label>
         <div class="d-flex">
           <input
+            data-ref="input-price"
             type="number"
             class="w-100 mr-2 pl-2"
             placeholder="구입 금액"
@@ -19,11 +25,9 @@ export class LottoPriceInput extends Component {
     `;
   }
 
-  beforeMount() {
-    console.log('beforeMount')
-  }
-
   mounted() {
-    console.log('mounted')
+    this.addEvent('click', '.btn-cyan', () => {
+      alert(this.$input.value)
+    })
   }
 }

@@ -2,7 +2,6 @@ import { observable, observe } from "./observer.js";
 
 export class Component {
 
-  $el;
   $props;
   $data;
 
@@ -67,6 +66,13 @@ export class Component {
   }
 
   mounted() {}
+
+  $refs (name) {
+    const $els = [ ...Component.#root.querySelectorAll(`[data-ref="${name}"]`) ];
+    if ($els.length === 0) return null;
+    if ($els.length === 1) return $els[0];
+    return $els;
+  }
 
   addEvent(eventType, selector, callback, options) {
     Component.#root.querySelectorAll(selector).forEach($target => {
