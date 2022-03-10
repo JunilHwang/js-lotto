@@ -10,6 +10,10 @@ export class Lottos {
     return [ ...this.#lottos ];
   }
 
+  get length () {
+    return this.value.length;
+  }
+
   getRewordsBy(winningLotto) {
     return this.#lottos.map(winningLotto.getReward);
   }

@@ -26,6 +26,7 @@ export class LottoPriceInput extends Component {
             type="number"
             class="w-100 mr-2 pl-2"
             placeholder="구입 금액"
+            value="${this.$props.currentPrice}"
           />
           <button type="submit" class="btn btn-cyan">확인</button>
         </div>

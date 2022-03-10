@@ -1,5 +1,5 @@
 import { Component } from "./core/index.js";
-import { LottoPriceInput } from "./components/index.js";
+import { LottoPriceInput, MyLottos } from "./components/index.js";
 import { LottoShop } from "./domain/index.js" ;
 
 export class App extends Component {
@@ -7,15 +7,22 @@ export class App extends Component {
   data () {
     return {
       lottos: null,
+      currentPrice: 0,
+      showLottos: false,
     }
   }
 
   buyLottos = (price) => {
+    this.currentPrice = price;
     this.lottos = LottoShop.buy(price);
   }
 
+  toggle = () => {
+    this.showLottos = !this.showLottos;
+  }
+
   render() {
-    const { lottos, buyLottos } = this;
+    const { lottos, buyLottos, currentPrice, showLottos, toggle } = this;
 
     return `
       <div class="p-3">
@@ -23,27 +30,10 @@ export class App extends Component {
           <div class="w-100">
             <h1 class="text-center">🎱 행운의 로또</h1>
             
-            ${new LottoPriceInput({ buyLottos })}
+            ${new LottoPriceInput({ buyLottos, currentPrice })}
             
             ${lottos ? `
-              <section class="mt-9">
-                <div class="d-flex">
-                  <label class="flex-auto my-0">총 5개를 구매하였습니다.</label>
-                  <div class="flex-auto d-flex justify-end pr-1">
-                    <label class="switch">
-                      <input type="checkbox" class="lotto-numbers-toggle-button" />
-                      <span class="text-base font-normal">번호보기</span>
-                    </label>
-                  </div>
-                </div>
-                <div class="d-flex flex-wrap">
-                  <span class="mx-1 text-4xl">🎟️ </span>
-                  <span class="mx-1 text-4xl">🎟️ </span>
-                  <span class="mx-1 text-4xl">🎟️ </span>
-                  <span class="mx-1 text-4xl">🎟️ </span>
-                  <span class="mx-1 text-4xl">🎟️ </span>
-                </div>
-              </section>
+              ${new MyLottos({ lottos, showLottos, toggle })}
             
               <form class="mt-9">
                 <label class="flex-auto d-inline-block mb-3"

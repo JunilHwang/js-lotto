@@ -17,10 +17,10 @@ export class Component {
   static #components = [];
 
   constructor(props = {}) {
+    Component.#components.push(this);
     this.$props = Component.#useReadonly(props);
     this.$data = observable(this.data());
     this.bindData();
-    Component.#components.push(this);
     this.beforeMount();
   }
 

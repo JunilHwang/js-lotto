@@ -13,7 +13,7 @@ export class LottoMachine {
         .fill(LottoNumber.MIN)
         .map((v, k) => LottoNumber.valueOf(v + k))
         .sort(() => Math.random() - 0.5)
-        .slice(Lotto.SIZE)
+        .slice(0, Lotto.SIZE)
     );
   }
 

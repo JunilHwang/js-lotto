@@ -15,7 +15,7 @@ export class Lotto {
   }
 
   get value () {
-    return new Set([ ...this.#lotto ]);
+    return [ ...this.#lotto ];
   }
 
   contains = value => this.value.has(value);
