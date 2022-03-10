@@ -80,8 +80,10 @@ export class Component {
   }
 
   addEvent(eventType, selector, callback, options) {
-    Component.#root.querySelectorAll(selector).forEach($target => {
-      $target.addEventListener(eventType, callback, options);
-    })
+    Component.#root
+      .querySelectorAll(selector.startsWith("$") ? `[data-ref="${selector}"]` : selector)
+      .forEach($target => {
+        $target.addEventListener(eventType, callback, options);
+      })
   }
 }

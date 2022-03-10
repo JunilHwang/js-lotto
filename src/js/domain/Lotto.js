@@ -7,7 +7,9 @@ export class Lotto {
 
   constructor(lotto) {
     Lotto.#validate(lotto);
-    this.#lotto = new Set(lotto);
+    this.#lotto = new Set(
+      [ ...lotto ].sort((a, b) => a.value - b.value)
+    );
   }
 
   static of (lotto) {
