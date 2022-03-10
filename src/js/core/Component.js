@@ -3,18 +3,36 @@ import { observable, observe } from "./observer.js";
 export class Component {
 
   $el;
-  #props;
-  state;
+  $props;
+  $data;
 
-  constructor($el, props = {}) {
-    this.$el = $el;
-    this.#props = Component.#useReadonly(props);
-    this.state = observable(this.initState());
-    observe(() => this.#render());
+  static #root = null;
+  static #components = [];
+
+  constructor(props = {}) {
+    this.$props = Component.#useReadonly(props);
+    this.$data = observable(this.data());
+    this.bindData();
+    Component.#components.push(this);
+    this.beforeMount();
   }
 
-  initState() {
+  data() {
     return {};
+  }
+
+  bindData () {
+    Object.keys(this.$data).forEach(key => {
+      Object.defineProperty(this, key, {
+        get () { return this.$data[key]; },
+        set (value) { this.$data[key] = value; }
+      })
+    })
+    Object.keys(this.$props).forEach(key => {
+      Object.defineProperty(this, key, {
+        get () { return this.$props[key]; },
+      })
+    })
   }
 
   static #useReadonly (obj) {
@@ -28,9 +46,8 @@ export class Component {
 
   #render() {
     requestAnimationFrame(() => {
-      this.beforeMount();
-      this.$el.innerHTML = this.render();
-      this.mounted();
+      Component.#root.innerHTML = this.render().trim();
+      Component.#components.forEach(v => v.mounted());
     });
   }
 
@@ -40,12 +57,20 @@ export class Component {
     throw new Error(`${this.constructor.name} class 에 render method를 정의해주세요`);
   }
 
+  toString() {
+    return this.render();
+  }
+
+  mount (root) {
+    Component.#root = root;
+    observe(() => this.#render());
+  }
+
   mounted() {}
 
   addEvent(eventType, selector, callback, options) {
-    this.$el.querySelectorAll(selector).forEach($target => {
+    Component.#root.querySelectorAll(selector).forEach($target => {
       $target.addEventListener(eventType, callback, options);
     })
   }
-
 }
