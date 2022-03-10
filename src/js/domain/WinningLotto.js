@@ -1,4 +1,4 @@
-import { LottoReward } from "./LottoReward";
+import { LottoReward } from "./LottoReward.js";
 
 export class WinningLotto {
   #lotto;

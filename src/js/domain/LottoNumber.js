@@ -20,7 +20,7 @@ export class LottoNumber {
   }
 
   static valueOf(value) {
-    const instance = LottoNumber.#LottoNumbers(value);
+    const instance = this.#LottoNumbers[value];
     if (!instance) {
       throw new InvalidLottoNumberException();
     }

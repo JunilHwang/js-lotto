@@ -1,5 +1,5 @@
 import { LottoNumber } from "./LottoNumber.js";
-import { Lotto } from "./Lotto";
+import { Lotto } from "./Lotto.js";
 
 export class LottoMachine {
 

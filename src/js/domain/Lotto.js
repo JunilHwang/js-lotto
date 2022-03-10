@@ -11,7 +11,7 @@ export class Lotto {
   }
 
   static of (lotto) {
-    return new lotto(lotto);
+    return new Lotto(lotto);
   }
 
   get value () {
