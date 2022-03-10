@@ -1,5 +1,13 @@
 import { observable, observe } from "./observer.js";
 
+const debounced = (() => {
+  let currentFrameNumber = 0;
+  return (fn) => {
+    cancelAnimationFrame(currentFrameNumber)
+    currentFrameNumber = requestAnimationFrame(fn);
+  }
+})();
+
 export class Component {
 
   $props;
@@ -27,11 +35,6 @@ export class Component {
         set (value) { this.$data[key] = value; }
       })
     })
-    Object.keys(this.$props).forEach(key => {
-      Object.defineProperty(this, key, {
-        get () { return this.$props[key]; },
-      })
-    })
   }
 
   static #useReadonly (obj) {
@@ -44,10 +47,12 @@ export class Component {
   }
 
   #render() {
-    requestAnimationFrame(() => {
-      Component.#root.innerHTML = this.render().trim();
+    const html = this.render().trim();
+
+    debounced(() => {
+      Component.#root.innerHTML = html;
       Component.#components.forEach(v => v.mounted());
-    });
+    })
   }
 
   beforeMount() {}

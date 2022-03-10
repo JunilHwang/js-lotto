@@ -1,5 +1,6 @@
 import { Component } from "./core/index.js";
 import { LottoPriceInput } from "./components/index.js";
+import { LottoShop } from "./domain/index.js" ;
 
 export class App extends Component {
 
@@ -9,8 +10,12 @@ export class App extends Component {
     }
   }
 
+  buyLottos = (price) => {
+    this.lottos = LottoShop.buy(price);
+  }
+
   render() {
-    const { lottos } = this;
+    const { lottos, buyLottos } = this;
 
     return `
       <div class="p-3">
@@ -18,7 +23,7 @@ export class App extends Component {
           <div class="w-100">
             <h1 class="text-center">🎱 행운의 로또</h1>
             
-            ${new LottoPriceInput()}
+            ${new LottoPriceInput({ buyLottos })}
             
             ${lottos ? `
               <section class="mt-9">
