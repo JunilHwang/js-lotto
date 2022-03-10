@@ -1,4 +1,5 @@
 import { Component } from "./core/index.js";
+import { LottoPriceInput } from "./components/index.js";
 
 export class App extends Component {
 
@@ -8,19 +9,9 @@ export class App extends Component {
         <div class="d-flex justify-center mt-5">
           <div class="w-100">
             <h1 class="text-center">🎱 행운의 로또</h1>
-            <form class="mt-5">
-              <label class="mb-2 d-inline-block">
-                구입할 금액을 입력해주세요.
-              </label>
-              <div class="d-flex">
-                <input
-                  type="number"
-                  class="w-100 mr-2 pl-2"
-                  placeholder="구입 금액"
-                />
-                <button type="button" class="btn btn-cyan">확인</button>
-              </div>
-            </form>
+            
+            ${new LottoPriceInput()}
+            
             <section class="mt-9">
               <div class="d-flex">
                 <label class="flex-auto my-0">총 5개를 구매하였습니다.</label>
@@ -39,6 +30,7 @@ export class App extends Component {
                 <span class="mx-1 text-4xl">🎟️ </span>
               </div>
             </section>
+            
             <form class="mt-9">
               <label class="flex-auto d-inline-block mb-3"
                 >지난 주 당첨번호 6개와 보너스 넘버 1개를 입력해주세요.</label
@@ -145,6 +137,14 @@ export class App extends Component {
         </div>
       </div>      
     `;
+  }
+
+  createChildren (componentName) {
+    return {
+      LottoPriceInput: {
+        constructor: LottoPriceInput,
+      }
+    }[componentName];
   }
 
   mounted() {
